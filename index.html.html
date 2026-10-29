@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새내기 개발자 홍길동 | My First Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            accent: '#6366f1',
+                            purple: '#8b5cf6'
+                        },
+                        dark: {
+                            bg: '#0b0f19',
+                            card: '#111827',
+                            border: '#1f2937'
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.25);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Ambient Glow BG -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-[128px] pointer-events-none animate-pulse-glow"></div>
+    <div class="fixed bottom-1/3 right-10 w-[28rem] h-[28rem] bg-brand-purple/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass transition-all duration-300 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-2.5 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-purple flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-graduation-cap text-base"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-white group-hover:text-brand-500 transition-colors">
+                    HONG<span class="text-brand-500">.DEV</span>
+                    <span class="text-[10px] font-normal px-2 py-0.5 rounded-md bg-slate-800 text-brand-500 ml-1">1학년</span>
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-slate-800">
+                <a href="#home" class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all">홈</a>
+                <a href="#about" class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all">자기소개</a>
+                <a href="#skills" class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all">배우는 기술</a>
+                <a href="#portfolio" class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all">포트폴리오</a>
+                <a href="#contact" class="px-5 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all">방명록/연락</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-brand-600 to-brand-accent hover:opacity-90 transition-all shadow-md shadow-brand-500/20">
+                    <i class="fa-regular fa-paper-plane"></i> 인사이동/문의
+                </a>
+                
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-dark-bg/95 backdrop-blur-xl px-4 pt-2 pb-6 space-y-2">
+            <a href="#home" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800">홈</a>
+            <a href="#about" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800">자기소개</a>
+            <a href="#skills" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800">배우는 기술</a>
+            <a href="#portfolio" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800">포트폴리오</a>
+            <a href="#contact" class="mobile-nav-link block px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-slate-800">방명록/연락</a>
+        </div>
+    </header>
+
+    <main class="pt-20">
+
+        <!-- HERO SECTION -->
+        <section id="home" class="min-h-[calc(100vh-5rem)] flex items-center relative py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-7">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-brand-500 text-xs sm:text-sm font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span>컴퓨터공학부 26학번 신입생</span>
+                        </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.2] text-white">
+                            매일 한 줄씩 코딩하며 <br>
+                            <span class="bg-gradient-to-r from-brand-500 via-brand-accent to-brand-purple bg-clip-text text-transparent">
+                                성장하는 개발자 꿈나무
+                            </span>입니다
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-slate-400 max-w-2xl leading-relaxed">
+                            대학 입학 후 처음으로 HTML, CSS, Java를 공부하고 있습니다! <br class="hidden sm:inline">
+                            아직은 배울 점이 많지만, 직접 첫 번째 웹사이트와 코드를 만들어가는 과정이 너무나 재미있고 설렙니다.
+                        </p>
+
+                        <div class="flex flex-wrap items-center gap-4 pt-2">
+                            <a href="#portfolio" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-accent text-white font-semibold shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:-translate-y-0.5 transition-all">
+                                내가 만든 작품들 보기 <i class="fa-solid fa-arrow-down ml-2 text-xs"></i>
+                            </a>
+                            <a href="#about" class="px-7 py-3.5 rounded-xl glass text-slate-200 font-semibold hover:bg-slate-800/80 hover:text-white transition-all">
+                                프로필 구경하기
+                            </a>
+                        </div>
+
+                        <!-- Learner Dashboard Stats -->
+                        <div class="pt-6 border-t border-slate-800/80 grid grid-cols-3 gap-4">
+                            <div>
+                                <p class="text-2xl sm:text-3xl font-extrabold text-white">1학년</p>
+                                <p class="text-xs text-slate-400 mt-1">대학 재학 중</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl sm:text-3xl font-extrabold text-white">4개+</p>
+                                <p class="text-xs text-slate-400 mt-1">완성한 기초 과제</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl sm:text-3xl font-extrabold text-white">100%</p>
+                                <p class="text-xs text-slate-400 mt-1">배움에 대한 열정</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Graphic / Profile -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md">
+                            <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand-500 to-brand-purple blur-xl opacity-30 animate-pulse-glow"></div>
+                            
+                            <div class="relative glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+                                <div class="relative rounded-2xl overflow-hidden aspect-square bg-slate-800 border border-slate-700/50 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-br from-slate-800 to-slate-900">
+                                    <div class="w-24 h-24 rounded-full bg-brand-500/20 text-brand-500 flex items-center justify-center text-4xl mb-4 border border-brand-500/30">
+                                        <i class="fa-solid fa-laptop-code"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-white">홍길동 (Hong Gil-Dong)</h3>
+                                    <p class="text-xs text-brand-500 font-semibold mt-1">컴퓨터공학과 1학년</p>
+                                    <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                                        "Hello, World! 첫 홈페이지 제작을 완료했습니다!"
+                                    </p>
+                                </div>
+
+                                <div class="space-y-2 text-xs text-slate-300">
+                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60">
+                                        <span class="text-slate-400"><i class="fa-solid fa-book-open text-brand-500 mr-2"></i>수강중인 과목</span>
+                                        <span class="font-semibold text-white">기초웹프로그래밍, 자바1</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/60">
+                                        <span class="text-slate-400"><i class="fa-solid fa-heart text-pink-500 mr-2"></i>관심 분야</span>
+                                        <span class="font-semibold text-white">웹 개발, UI 인터랙션</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="py-20 relative border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-14 space-y-2">
+                    <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">ABOUT ME</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">저를 소개합니다!</p>
+                    <p class="text-slate-400 text-sm">기초부터 차근차근 배우며 나아가는 컴퓨터공학부 1학년입니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-4">
+                            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-seedling text-emerald-400"></i> 코딩과의 첫 만남
+                            </h3>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                대학교 입학 후 수업 시간에 처음으로 HTML과 CSS 테그를 작성해 보고, 브라우저 화면에 내가 쓴 글자와 색상이 나타나는 것을 보고 코딩의 매력에 푹 빠졌습니다.
+                            </p>
+                            <p class="text-slate-300 text-sm leading-relaxed">
+                                처음에는 오타 하나 때문에 화면이 찌그러지거나 오류가 나서 당황하기도 했지만, 구글링하고 수정하며 스스로 문제를 해결할 때의 뿌듯함이 개발의 가장 큰 매력이라고 느낍니다.
+                            </p>
+                        </div>
+
+                        <!-- Academic Journey Timeline -->
+                        <div class="glass-card rounded-2xl p-6 space-y-4">
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-timeline text-brand-500"></i> 대학 생활 및 학습 기록
+                            </h3>
+                            <div class="space-y-4 border-l-2 border-slate-800 pl-4 ml-1">
+                                <div>
+                                    <span class="text-[11px] font-semibold text-brand-500">1학년 2학기 (현재)</span>
+                                    <h4 class="text-sm font-bold text-white mt-0.5">Java 객체지향 기초 & JavaScript 학습</h4>
+                                    <p class="text-xs text-slate-400 mt-1">자바 클래스와 객체 개념을 배우고, JS로 웹페이지에 동적 기능을 추가하는 연습 중</p>
+                                </div>
+                                <div>
+                                    <span class="text-[11px] font-semibold text-slate-400">1학년 1학기</span>
+                                    <h4 class="text-sm font-bold text-white mt-0.5">C언어 및 기초 웹(HTML/CSS) 입문</h4>
+                                    <p class="text-xs text-slate-400 mt-1">프로그래밍 기본 제어문 구조 익히기 및 개인 자기소개 웹페이지 제작</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Info Cards -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="glass-card rounded-2xl p-6 space-y-3">
+                            <h3 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-bullseye text-brand-purple mr-2"></i>나의 올해 목표</h3>
+                            <ul class="space-y-2 text-xs text-slate-300">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-brand-500 mt-0.5"></i>
+                                    <span>HTML/CSS/JS로 만든 내 첫 포트폴리오 웹사이트 배포완료하기</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-brand-500 mt-0.5"></i>
+                                    <span>Java로 콘솔 학생 관리 프로그램 완성해보기</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-brand-500 mt-0.5"></i>
+                                    <span>Git/GitHub에 일일 1커밋 습관 들이기</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 bg-gradient-to-br from-brand-600/10 to-transparent space-y-3">
+                            <h3 class="text-base font-bold text-white"><i class="fa-solid fa-heart text-red-400 mr-2"></i>취미 및 흥미</h3>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                코딩 외에는 컴퓨터 부품 견적 보기, 새로운 IT 기술 뉴스 읽기, 음악 들으며 과제하기를 즐깁니다!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="py-20 relative border-t border-slate-800/50 bg-slate-900/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-14 space-y-2">
+                    <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">MY SKILLS</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">현재 배운 기술 스택</p>
+                    <p class="text-slate-400 text-sm">수업과 독학으로 익히고 있는 언어와 기술들입니다.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Skill Card 1: HTML & CSS -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400 text-lg">
+                                <i class="fa-brands fa-html5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">HTML5 & CSS3</h3>
+                                <p class="text-xs text-slate-400">웹 마크업 및 스타일링</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            시맨틱 태그를 활용하여 시각적으로 깔끔한 웹페이지 구조를 짜고, CSS Flexbox 및 Grid를 활용하여 반응형 레이아웃을 다룰 수 있습니다.
+                        </p>
+                        <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full bg-orange-500 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill Card 2: JavaScript -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
+                                <i class="fa-brands fa-js"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">JavaScript</h3>
+                                <p class="text-xs text-slate-400">기초 동적 웹 동작</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            DOM 요소를 제어하고, click/submit 등의 이벤트 처리 및 간단한 알고리즘 조건문/반복문을 구현하여 대화형 요소를 만듭니다.
+                        </p>
+                        <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full bg-amber-500 rounded-full" style="width: 60%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Skill Card 3: Java -->
+                    <div class="glass-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                            <div class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 text-lg">
+                                <i class="fa-brands fa-java"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Java</h3>
+                                <p class="text-xs text-slate-400">객체지향 프로그래밍 기초</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            변수, 배열, 조건문, 반복문부터 시작하여 Class, Object, 상속 및 간단한 콘솔 입력(Scanner) 프로그램을 제작해 보았습니다.
+                        </p>
+                        <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                            <div class="h-full bg-red-500 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- PORTFOLIO SECTION -->
+        <section id="portfolio" class="py-20 relative border-t border-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-2">
+                    <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">MY PROJECTS</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">1학년 과제 & 개인 프로젝트</p>
+                    <p class="text-slate-400 text-sm">직접 공부하며 하나씩 손수 만들어 본 포트폴리오 프로젝트 모음입니다.</p>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+                    <button class="filter-btn active px-5 py-2 rounded-full text-xs font-bold transition-all bg-brand-600 text-white" data-filter="all">
+                        전체 프로젝트
+                    </button>
+                    <button class="filter-btn px-5 py-2 rounded-full text-xs font-bold transition-all bg-slate-800/80 text-slate-400 hover:text-white" data-filter="web">
+                        웹 프로젝트 (HTML/CSS/JS)
+                    </button>
+                    <button class="filter-btn px-5 py-2 rounded-full text-xs font-bold transition-all bg-slate-800/80 text-slate-400 hover:text-white" data-filter="java">
+                        Java 콘솔 프로젝트
+                    </button>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8" id="projects-grid">
+                    
+                    <!-- Project 1: 쇼핑몰 프로젝트 -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1" data-category="web">
+                        <div class="p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md bg-brand-500/10 text-brand-500">웹 프로젝트</span>
+                                <span class="text-xs text-slate-400"><i class="fa-solid fa-code text-brand-500 mr-1"></i> HTML / CSS / JS</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-brand-600/20 text-brand-500 flex items-center justify-center text-2xl shrink-0">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white group-hover:text-brand-500 transition-colors">1. 쇼핑몰 메인 & 상품 페이지</h3>
+                                    <p class="text-xs text-slate-400 mt-1">HTML/CSS/JS로 구현한 내 첫 쇼핑몰 프론트엔드</p>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                                다양한 상품들을 카드 형태로 나열하고, 카테고리별 필터링 기능과 장바구니 담기 UI를 구현한 웹 사이트 과제입니다.
+                            </p>
+
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">HTML5</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">CSS Flexbox</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">JS 이벤트</span>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                                <button onclick="openModal(1)" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-brand-600 text-slate-200 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-circle-info"></i> 상세보기 & 배운점 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: 자기소개 페이지 -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1" data-category="web">
+                        <div class="p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md bg-brand-purple/10 text-brand-purple">웹 첫걸음</span>
+                                <span class="text-xs text-slate-400"><i class="fa-solid fa-code text-brand-purple mr-1"></i> HTML / CSS</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-brand-purple/20 text-brand-purple flex items-center justify-center text-2xl shrink-0">
+                                    <i class="fa-solid fa-address-card"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white group-hover:text-brand-500 transition-colors">2. 나만의 자기소개 웹페이지</h3>
+                                    <p class="text-xs text-slate-400 mt-1">대학에 들어와 처음 만든 자기소개 웹</p>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                                취미, 좋아하는 음악, 학업 목표를 정성스럽게 정돈된 CSS 레이아웃으로 만든 첫 웹페이지입니다.
+                            </p>
+
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">HTML5</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">CSS Animation</span>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                                <button onclick="openModal(2)" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-brand-600 text-slate-200 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-circle-info"></i> 상세보기 & 배운점 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: 미니 웹 게임 -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1" data-category="web">
+                        <div class="p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400">웹 미니게임</span>
+                                <span class="text-xs text-slate-400"><i class="fa-solid fa-code text-emerald-400 mr-1"></i> JS DOM 조작</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                                    <i class="fa-solid fa-gamepad"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white group-hover:text-brand-500 transition-colors">3. JavaScript 미니 게임</h3>
+                                    <p class="text-xs text-slate-400 mt-1">숫자 맞추기 / 틱택토 게임</p>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                                자바스크립트의 난수 생성(Math.random)과 DOM 조작을 학습하기 위해 만든 재미있는 인터랙티브 게임입니다.
+                            </p>
+
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">JavaScript</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">DOM Manipulation</span>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                                <button onclick="openModal(3)" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-brand-600 text-slate-200 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-circle-info"></i> 상세보기 & 배운점 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4: Java 콘솔 프로그램 -->
+                    <div class="project-card glass-card rounded-2xl overflow-hidden group transition-all duration-300 hover:-translate-y-1" data-category="java">
+                        <div class="p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md bg-red-500/10 text-red-400">Java 과제</span>
+                                <span class="text-xs text-slate-400"><i class="fa-solid fa-code text-red-400 mr-1"></i> Java 콘솔</span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center text-2xl shrink-0">
+                                    <i class="fa-solid fa-terminal"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white group-hover:text-brand-500 transition-colors">4. Java 콘솔 프로그램</h3>
+                                    <p class="text-xs text-slate-400 mt-1">학생 정보 관리 / 가계부 시스템</p>
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                                Java의 Scanner 객체와 ArrayList, 클래스 객체 개념을 활용하여 콘솔 터미널에서 데이터 입력/출력/조회를 구현한 프로그램입니다.
+                            </p>
+
+                            <div class="flex flex-wrap gap-1.5 pt-1">
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Java</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">OOP 기초</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">ArrayList</span>
+                            </div>
+
+                            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                                <button onclick="openModal(4)" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-brand-600 text-slate-200 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-circle-info"></i> 상세보기 & 배운점 보기
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- CONTACT / GUESTBOOK SECTION -->
+        <section id="contact" class="py-20 relative border-t border-slate-800/50 bg-slate-900/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-14 space-y-2">
+                    <h2 class="text-xs font-extrabold tracking-widest text-brand-500 uppercase">CONTACT & GUESTBOOK</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">응원의 한마디 남기기</p>
+                    <p class="text-slate-400 text-sm">피드백이나 조언, 응원의 메시지는 초보 개발자에게 큰 힘이 됩니다!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                    
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="glass-card rounded-2xl p-6 flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-brand-500/20 flex items-center justify-center text-brand-500 text-xl shrink-0">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">학교 이메일</p>
+                                <p class="text-sm font-bold text-white">student@univ.ac.kr</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-brand-purple/20 flex items-center justify-center text-brand-purple text-xl shrink-0">
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">나의 공부 기록 GitHub</p>
+                                <a href="https://github.com" target="_blank" class="text-sm font-bold text-white hover:text-brand-500 transition-colors">github.com/my-first-repo</a>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-2xl p-6 space-y-2">
+                            <h4 class="text-xs font-bold text-slate-300">방문해주셔서 감사합니다!</h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                열심히 공부해서 더 발전된 모습으로 포트폴리오를 계속 업데이트하겠습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <form id="contact-form" class="glass-card rounded-2xl p-6 sm:p-8 space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-semibold text-slate-300">성함 / 닉네임 *</label>
+                                    <input type="text" id="contact-name" required placeholder="선배님 or 친구" 
+                                           class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500">
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-semibold text-slate-300">이메일 *</label>
+                                    <input type="email" id="contact-email" required placeholder="your@email.com" 
+                                           class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500">
+                                </div>
+                            </div>
+
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-slate-300">메시지 내용 *</label>
+                                <textarea id="contact-message" rows="4" required placeholder="첫 포트폴리오 작성을 축하합니다! 앞으로도 화이팅하세요 :)" 
+                                          class="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500 resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand-600 to-brand-accent text-white font-semibold text-sm shadow-lg shadow-brand-500/20 hover:opacity-95 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-regular fa-paper-plane"></i> 방명록 남기기
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 py-8 bg-dark-bg text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 홍길동 (컴퓨터공학과 1학년). All rights reserved.</p>
+            <a href="#home" class="hover:text-slate-300 transition-colors">맨 위로 올라가기 ↑</a>
+        </div>
+    </footer>
+
+
+    <!-- DETAIL MODAL -->
+    <div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-card bg-slate-900 border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 space-y-5 relative transform scale-95 transition-all duration-300" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="modal-body" class="space-y-4">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 glass-card bg-slate-900 border border-emerald-500/50 text-white px-5 py-4 rounded-xl shadow-xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 class="text-sm font-bold">방명록이 등록되었습니다!</h4>
+            <p class="text-xs text-slate-400">따뜻한 응원 감사합니다.</p>
+        </div>
+    </div>
+
+
+    <script>
+        // Mobile Navigation
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Portfolio Category Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-brand-600', 'text-white');
+                    b.classList.add('bg-slate-800/80', 'text-slate-400');
+                });
+                btn.classList.add('active', 'bg-brand-600', 'text-white');
+                btn.classList.remove('bg-slate-800/80', 'text-slate-400');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Modal Content Data (Freshman Project Focus)
+        const projectsData = {
+            1: {
+                title: "1. 쇼핑몰 메인 & 상품 페이지 프로젝트",
+                category: "웹 프로그래밍 과제",
+                icon: "fa-cart-shopping",
+                color: "text-brand-500",
+                description: "HTML과 CSS 구조 설계 학습을 목적으로 만든 온라인 쇼핑몰 웹 UI입니다. 상품 카드를 배치하고 Flexbox를 활용해 그리드를 정렬했습니다.",
+                features: [
+                    "상품 목록 카드 레이아웃 및 Hover 효과",
+                    "장바구니 버튼 클릭 시 담김 상태 표시",
+                    "간단한 카테고리 필터링 구현"
+                ],
+                learned: "CSS의 flex와 grid 속성에 대해 명확하게 이해하게 되었습니다. 디바이스 크기에 따라 상품 카드가 깔끔하게 정렬되도록 고민하는 과정이 흥미로웠습니다.",
+                tech: ["HTML5", "CSS3", "JavaScript"]
+            },
+            2: {
+                title: "2. 나만의 자기소개 웹페이지",
+                category: "웹 기초 첫 작품",
+                icon: "fa-address-card",
+                color: "text-brand-purple",
+                description: "컴퓨터공학과 입학 후 처음으로 만든 제 첫 번째 개인 웹사이트입니다. 자기소개, 취미, 대학 생활 목표 등을 담았습니다.",
+                features: [
+                    "프로필 사진 및 인적사항 소개 코너",
+                    "좋아하는 노래 및 취미 리스트 정돈",
+                    "방명록 입력 폼 디자인"
+                ],
+                learned: "태그 하나하나가 모여 완성된 웹페이지가 되는 과정이 신기했습니다. 배운 태그들을 조합하여 개성을 나타내는 재미를 알게 되었습니다.",
+                tech: ["HTML5", "CSS3"]
+            },
+            3: {
+                title: "3. JavaScript 미니 게임 (숫자 맞추기 / 틱택토)",
+                category: "JavaScript 동적 웹",
+                icon: "fa-gamepad",
+                color: "text-emerald-400",
+                description: "JavaScript의 기본 문법(조건문, 반복문, 함수)과 DOM 조작 이벤트를 익히기 위해 제작한 미니 웹 게임입니다.",
+                features: [
+                    "1~100 사이 난수 생성 및 UP/DOWN 숫자 맞추기",
+                    "2인용 틱택토(Tic-Tac-Toe) 보드판 게임",
+                    "승리 조건 체크 알고리즘 구현"
+                ],
+                learned: "이벤트 리스너(addEventListener)를 다루고, 화면 요소를 자바스크립트로 직접 바꾸는 과정을 공부하면서 웹 프로그래밍의 진짜 재미를 느꼈습니다.",
+                tech: ["HTML5", "CSS3", "JavaScript"]
+            },
+            4: {
+                title: "4. Java 기반 콘솔 관리 프로그램",
+                category: "Java 프로그래밍 언어 과제",
+                icon: "fa-terminal",
+                color: "text-red-400",
+                description: "자바 수업 시간에 배운 객체지향 개념(Class, Method)과 Scanner를 이용해 터미널 환경에서 실행되는 관리 프로그램입니다.",
+                features: [
+                    "학생 정보 등록, 수정, 전체 조회 기능",
+                    "가계부 지출/수입 등록 및 잔액 계산",
+                    "잘못된 입력 처리 (Try-Catch / 예외 처리)"
+                ],
+                learned: "객체를 생성하고 배열(ArrayList)에 담아 데이터를 관리하는 자바의 기본적인 OOP 흐름을 확실히 파악할 수 있었습니다.",
+                tech: ["Java", "OOP", "Console I/O"]
+            }
+        };
+
+        const modal = document.getElementById('project-modal');
+        const modalBody = document.getElementById('modal-body');
+
+        function openModal(id) {
+            const item = projectsData[id];
+            if (!item) return;
+
+            modalBody.innerHTML = `
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center ${item.color} text-xl">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-brand-500 uppercase">${item.category}</span>
+                        <h3 class="text-xl font-bold text-white">${item.title}</h3>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-300">프로젝트 개요</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">${item.description}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-slate-300">주요 구현 기능</h4>
+                    <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
+                        ${item.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="space-y-2 bg-slate-800/50 p-4 rounded-xl border border-slate-800">
+                    <h4 class="text-xs font-bold text-brand-500"><i class="fa-solid fa-lightbulb mr-1"></i> 이 과제를 통해 배운 점</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">${item.learned}</p>
+                </div>
+
+                <div class="flex flex-wrap gap-1.5 pt-2">
+                    ${item.tech.map(t => `<span class="text-[11px] px-2.5 py-1 rounded-md bg-slate-800 text-slate-300">${t}</span>`).join('')}
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('#modal-content').classList.remove('scale-95');
+            modal.querySelector('#modal-content').classList.add('scale-100');
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('#modal-content').classList.remove('scale-100');
+            modal.querySelector('#modal-content').classList.add('scale-95');
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Contact Form
+        const contactForm = document.getElementById('contact-form');
+        const toast = document.getElementById('toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            contactForm.reset();
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
