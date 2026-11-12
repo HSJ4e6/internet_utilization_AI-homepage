@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실습 1: D-Day 계산기 | 한승준 포트폴리오</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f19; color: #f8fafc; }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+    <!-- 배경 효과 -->
+    <div class="fixed top-10 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px] pointer-events-none"></div>
+    <div class="fixed bottom-10 right-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-[128px] pointer-events-none"></div>
+
+    <!-- 상단 헤더 -->
+    <header class="border-b border-slate-800/80 bg-slate-900/70 backdrop-blur-md">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html" class="font-extrabold text-lg text-white">
+                HONG<span class="text-blue-500">.DEV</span>
+            </a>
+            <a href="index.html#portfolio" class="text-xs font-semibold px-4 py-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors">
+                <i class="fa-solid fa-arrow-left mr-1.5"></i>포트폴리오로 돌아가기
+            </a>
+        </div>
+    </header>
+
+    <!-- 메인 섹션 -->
+    <main class="flex-1 flex items-center justify-center p-4">
+        <section class="glass-card rounded-3xl p-8 sm:p-12 max-w-lg w-full text-center space-y-6 shadow-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold">
+                <i class="fa-solid fa-calendar-days"></i> 실습 1 : Date & Math 객체
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-white">D-Day 계산기</h1>
+
+            <div class="py-6 px-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+                <script>
+                    let now = new Date();
+
+                    let yearStr = prompt("목표 연도를 입력하세요 (예: 2026)", "2026");
+                    let monthStr = prompt("목표 월을 입력하세요 (1~12)", "12");
+                    let dayStr = prompt("목표 일을 입력하세요 (1~31)", "25");
+
+                    if (!yearStr || !monthStr || !dayStr) {
+                        document.write("<p class='text-lg font-bold text-slate-400'>계산을 취소했습니다.</p>");
+                    } else {
+                        let year = parseInt(yearStr);
+                        let month = parseInt(monthStr);
+                        let day = parseInt(dayStr);
+
+                        let targetDate = new Date(year, month - 1, day);
+                        let diffMs = targetDate.getTime() - now.getTime();
+                        let diffDay = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+                        document.write("<p class='text-xs text-slate-400 mb-2'>목표 날짜: " + year + "년 " + month + "월 " + day + "일</p>");
+
+                        if (diffDay === 0) {
+                            document.write("<p class='text-3xl sm:text-4xl font-extrabold text-emerald-400'>D-Day 입니다!</p>");
+                        } else if (diffDay > 0) {
+                            document.write("<p class='text-3xl sm:text-4xl font-extrabold text-blue-400'>D-" + diffDay + "</p>");
+                        } else {
+                            document.write("<p class='text-3xl sm:text-4xl font-extrabold text-purple-400'>D+" + Math.abs(diffDay) + "</p>");
+                        }
+                    }
+                </script>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button onclick="location.reload()" class="flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all">
+                    <i class="fa-solid fa-rotate-right mr-1.5"></i>다시 계산하기
+                </button>
+                <a href="index.html#portfolio" class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all">
+                    메인으로 이동
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-6 text-center text-xs text-slate-500 border-t border-slate-800/60">
+        © 2026 한승준 전자공학과. All rights reserved.
+    </footer>
+</body>
+</html>
